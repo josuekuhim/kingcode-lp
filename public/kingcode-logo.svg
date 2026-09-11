@@ -1,0 +1,7 @@
+<svg width="320" height="64" viewBox="0 0 320 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <g transform="translate(0 0)">
+    <path d="M14 16L34 32L14 48" stroke="#D41445" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M37 48H54" stroke="#E7A8B8" stroke-width="4" stroke-linecap="round"/>
+  </g>
+  <text x="78" y="42" fill="#F4F0F1" font-family="Manrope, Arial, sans-serif" font-size="28" font-weight="800" letter-spacing="-1.7">king<tspan fill="#D41445">code</tspan></text>
+</svg>

@@ -1,0 +1,67 @@
+export const routingTasks = [
+  { id: "spec", task: "Specs & business rules", short: "Specification", model: "Opus", tone: "mauve", fit: "Deep reasoning", reason: "Resolve business rules, edge cases and acceptance criteria before implementation begins.", context: "Business rules + billing domain", strategy: "Reasoning first", fallback: "Sonnet", files: "spec.md · billing-policy.ts" },
+  { id: "debug", task: "Bug investigation", short: "Debugging", model: "Inkling", tone: "steel", fit: "Focused investigation", reason: "Follow the failure across logs, call sites and tests to isolate the smallest reproducible cause.", context: "Stack trace + symbol references", strategy: "Evidence first", fallback: "Opus", files: "webhooks.ts · billing.test.ts" },
+  { id: "code", task: "Core implementation", short: "Implementation", model: "Gemma", tone: "cherry", fit: "Fast, scoped execution", reason: "Implement a bounded task against an approved spec. Escalate when a dependency or acceptance check fails.", context: "Approved spec + relevant modules", strategy: "Cost aware", fallback: "Sonnet", files: "subscriptions.ts · stripe.ts" },
+  { id: "infra", task: "DevOps / infrastructure", short: "Infrastructure", model: "Sonnet", tone: "amber", fit: "Systems thinking", reason: "Connect environment configuration, deployment dependencies and recovery steps into one infrastructure change.", context: "Infrastructure + environment map", strategy: "Risk aware", fallback: "Kimi", files: "deploy.yml · Dockerfile" },
+  { id: "review", task: "Review & validation", short: "Review", model: "Opus / Sonnet", tone: "mauve", fit: "Critical analysis", reason: "Check the final diff against the specification, trace regressions and verify the work before it is accepted.", context: "Diff + spec + validation results", strategy: "Independent review", fallback: "Opus", files: "work-order.json · acceptance.md" },
+] as const;
+
+export const contextFiles = [
+  { name: "stripe.ts", path: "src/billing/stripe.ts", symbols: 4, relevance: 98, code: [
+    "// Retrieved symbol: createCheckout",
+    "export async function createCheckout(",
+    "  customer: Customer,",
+    "  plan: SubscriptionPlan",
+    ") {",
+    "  return stripe.checkout.sessions.create({",
+    "    customer: customer.stripeId,",
+    '    mode: "subscription",',
+    "    line_items: [{ price: plan.priceId, quantity: 1 }],",
+    "  });",
+    "}",
+  ] },
+  { name: "subscriptions.ts", path: "src/db/subscriptions.ts", symbols: 7, relevance: 92, code: [
+    "// Retrieved symbol: Subscription",
+    "export type Subscription = {",
+    "  id: string;",
+    "  customerId: string;",
+    "  stripeSubscriptionId: string;",
+    '  status: "active" | "past_due" | "canceled";',
+    "  currentPeriodEnd: Date;",
+    "};",
+    "",
+    "// References: billing, webhooks, account",
+  ] },
+  { name: "webhooks.ts", path: "src/api/webhooks.ts", symbols: 3, relevance: 87, code: [
+    "// Retrieved symbol: handleSubscriptionUpdate",
+    "export async function handleSubscriptionUpdate(",
+    "  event: Stripe.Event",
+    ") {",
+    "  const subscription = event.data.object;",
+    "  await syncSubscription(subscription);",
+    "  await recordEvent(event.id);",
+    "}",
+    "",
+    "// Related: idempotency guard, event signature",
+  ] },
+  { name: "checkout.spec.ts", path: "tests/billing/checkout.spec.ts", symbols: 2, relevance: 81, code: [
+    "// Retrieved test: subscription checkout",
+    'describe("subscription checkout", () => {',
+    '  it("creates a session for an eligible plan", async () => {',
+    "    const session = await createCheckout(customer, plan);",
+    '    expect(session.mode).toBe("subscription");',
+    "    expect(session.customer).toBe(customer.stripeId);",
+    "  });",
+    "});",
+  ] },
+] as const;
+
+export const sddStages = [
+  { label: "Intent", file: "request.md" },
+  { label: "Specification", file: "spec.md" },
+  { label: "Architecture", file: "design.md" },
+  { label: "Task graph", file: "tasks.json" },
+  { label: "Execution waves", file: "wave-01" },
+  { label: "Review", file: "review.md" },
+  { label: "Verification", file: "acceptance.md" },
+] as const;
