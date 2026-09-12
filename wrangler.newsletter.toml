@@ -5,8 +5,7 @@ workers_dev = true
 
 [vars]
 ALLOWED_ORIGINS = "https://josuekuhim.github.io,https://kingcode.run,https://www.kingcode.run,http://localhost:5173"
-# Set this to a sender verified in Resend, for example:
-# RESEND_FROM_EMAIL = "KingCode <hello@your-domain.com>"
+RESEND_FROM_EMAIL = "KingCode <kingcode@nestsh.com>"
 
 [[d1_databases]]
 binding = "DB"
