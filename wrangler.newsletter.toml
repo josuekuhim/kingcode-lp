@@ -1,0 +1,13 @@
+name = "kingcode-newsletter-api"
+main = "newsletter-api/src/index.ts"
+compatibility_date = "2026-09-11"
+workers_dev = true
+
+[vars]
+ALLOWED_ORIGINS = "https://josuekuhim.github.io,https://kingcode.run,https://www.kingcode.run,http://localhost:5173"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "kingcode-newsletter"
+database_id = "98a6eea8-08e6-44e6-8b35-9323a26ed13c"
+migrations_dir = "drizzle"

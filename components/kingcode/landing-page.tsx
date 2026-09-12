@@ -2,6 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { ArrowDown, ArrowRight, Check, ChevronRight, Code2, Command, Cpu, FileCheck2, Fingerprint, GitBranch, Layers3, Menu, Network, ScanSearch, ShieldCheck, Terminal, Workflow, X } from "lucide-react";
+import { subscribeToNewsletter } from "@/lib/newsletter";
 import { Brand, ModelBadge, PanelBar, SectionHeading } from "./primitives";
 import { TerminalDemo } from "./terminal-demo";
 import { ArchitectureDiagram, CodebaseIntelligence, RoutingMatrix, SddWorkflow } from "./product-panels";
@@ -171,16 +172,39 @@ function ControlPlaneSection() {
 }
 
 function FinalCTA() {
-  const [submitted, setSubmitted] = useState(false);
-  function submit(event: FormEvent<HTMLFormElement>) { event.preventDefault(); setSubmitted(true); }
+  const [formState, setFormState] = useState<"idle" | "submitting" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const formData = new FormData(form);
+    const email = String(formData.get("email") ?? "").trim();
+    const website = String(formData.get("website") ?? "");
+
+    setFormState("submitting");
+    setErrorMessage("");
+
+    try {
+      await subscribeToNewsletter(email, website);
+      form.reset();
+      setFormState("success");
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : "Could not save your email. Please try again.");
+      setFormState("error");
+    }
+  }
+
   return <section className="section container" id="early-access">
     <div className="final-cta">
       <div className="cta-grid" aria-hidden="true" />
       <div className="cta-copy"><span className="eyebrow"><span className="live-dot" /> EARLY ACCESS</span><h2>Your next idea.<br /><span>Already in motion.</span></h2><p>A single interface for the full development loop.<br />Get an early look at KingCode.</p></div>
       <div className="cta-form-panel panel"><PanelBar title="kingcode / early-access" meta="v0.1" />
-        {submitted ? <div className="form-success" role="status"><Check size={25} /><h3>Preview confirmed.</h3><p>This is a demo form. Your email hasn’t been sent or added to a mailing list.</p><button className="text-link" type="button" onClick={() => setSubmitted(false)}>Back to form<ArrowRight size={14} /></button></div> : <form onSubmit={submit}>
+        {formState === "success" ? <div className="form-success" role="status"><Check size={25} /><h3>You’re on the list.</h3><p>Your email is saved. We’ll let you know when KingCode is ready.</p><button className="text-link" type="button" onClick={() => setFormState("idle")}>Add another email<ArrowRight size={14} /></button></div> : <form onSubmit={submit} aria-busy={formState === "submitting"}>
           <label htmlFor="waitlist-email">Your work email</label><input type="email" id="waitlist-email" name="email" autoComplete="email" placeholder="you@company.com" required />
-          <button type="submit" className="button button-primary">Join the waitlist<ArrowRight size={17} /></button><p className="form-note">Early-access preview · no email is sent yet.</p>
+          <div className="newsletter-honeypot" aria-hidden="true"><label htmlFor="website">Website</label><input id="website" name="website" tabIndex={-1} autoComplete="off" /></div>
+          {formState === "error" && <p className="newsletter-error" role="alert">{errorMessage}</p>}
+          <button type="submit" className="button button-primary" disabled={formState === "submitting"}>{formState === "submitting" ? "Saving…" : "Join the waitlist"}<ArrowRight size={17} /></button><p className="form-note">Private early-access list · no spam.</p>
         </form>}
       </div>
     </div>

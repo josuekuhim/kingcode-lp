@@ -40,6 +40,7 @@ jobs:
         run: npm run build
         env:
           NEXT_PUBLIC_BASE_PATH: ${{ steps.pages.outputs.base_path }}
+          NEXT_PUBLIC_NEWSLETTER_API_URL: https://kingcode-newsletter-api.josuekuhim-dev.workers.dev
 
       - name: Flatten generated assets for Pages
         if: steps.pages.outputs.base_path != ''

@@ -1,6 +1,6 @@
-# vinext-starter
+# KingCode landing page
 
-A clean full-stack starter running on [vinext](https://github.com/cloudflare/vinext), with optional Cloudflare D1 and Drizzle support.
+The public KingCode landing page, built with Next.js, React, TypeScript and Tailwind CSS. The frontend is exported to GitHub Pages; the newsletter endpoint runs as a small Cloudflare Worker backed by D1.
 
 ## Prerequisites
 
@@ -43,7 +43,7 @@ Local tool usage metrics are disabled by default. Set `WRANGLER_SEND_METRICS=tru
 - `.openai/hosting.json` declares optional Sites D1 and R2 bindings
 - `vite.config.ts` simulates declared bindings for local development
 - `db/index.ts` reads the D1 binding from the Cloudflare Worker environment
-- `db/schema.ts` starts intentionally empty
+- `db/schema.ts` contains the newsletter subscriber schema
 - `@cloudflare/workers-types` provides Worker types; `cloudflare-env.d.ts` declares optional `DB`/`BUCKET` bindings—update these declarations if binding names change
 - `examples/d1/` contains an optional D1 example surface
 - `drizzle.config.ts` supports local migration generation when needed
@@ -107,6 +107,19 @@ node --import ./scripts/sites-env.mjs ./node_modules/wrangler/bin/wrangler.js d1
 ```
 
 Replace the filename with the pending migration and `DB` with your D1 binding name if different. Use `.wrangler/state`, not `.wrangler/state/v3`; Wrangler adds the versioned directories. Do not replay migrations already applied locally. This updates only the preview database; publishing applies production migrations separately.
+
+## Newsletter API
+
+The static CTA posts to `/subscribe` on the Worker configured in `wrangler.newsletter.toml`. The Worker stores a normalized email and timestamp in D1, ignores duplicate submissions, and intentionally exposes no endpoint for listing subscribers.
+
+To publish changes to the API:
+
+```sh
+npx wrangler d1 migrations apply DB --remote --config wrangler.newsletter.toml
+npx wrangler deploy --config wrangler.newsletter.toml
+```
+
+The GitHub Pages workflow injects `NEXT_PUBLIC_NEWSLETTER_API_URL` at build time. Keep that value aligned with the deployed Worker URL when changing environments.
 
 ## Diagnostic Commands
 
