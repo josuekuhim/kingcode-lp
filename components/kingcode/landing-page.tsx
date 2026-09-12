@@ -200,11 +200,11 @@ function FinalCTA() {
       <div className="cta-grid" aria-hidden="true" />
       <div className="cta-copy"><span className="eyebrow"><span className="live-dot" /> EARLY ACCESS</span><h2>Your next idea.<br /><span>Already in motion.</span></h2><p>A single interface for the full development loop.<br />Get an early look at KingCode.</p></div>
       <div className="cta-form-panel panel"><PanelBar title="kingcode / early-access" meta="v0.1" />
-        {formState === "success" ? <div className="form-success" role="status"><Check size={25} /><h3>You’re on the list.</h3><p>Your email is saved. We’ll let you know when KingCode is ready.</p><button className="text-link" type="button" onClick={() => setFormState("idle")}>Add another email<ArrowRight size={14} /></button></div> : <form onSubmit={submit} aria-busy={formState === "submitting"}>
+        {formState === "success" ? <div className="form-success" role="status"><Check size={25} /><h3>You’re on the list.</h3><p>Your email is saved. Check your inbox — we just sent a confirmation.</p><button className="text-link" type="button" onClick={() => setFormState("idle")}>Add another email<ArrowRight size={14} /></button></div> : <form onSubmit={submit} aria-busy={formState === "submitting"}>
           <label htmlFor="waitlist-email">Your work email</label><input type="email" id="waitlist-email" name="email" autoComplete="email" placeholder="you@company.com" required />
           <div className="newsletter-honeypot" aria-hidden="true"><label htmlFor="website">Website</label><input id="website" name="website" tabIndex={-1} autoComplete="off" /></div>
           {formState === "error" && <p className="newsletter-error" role="alert">{errorMessage}</p>}
-          <button type="submit" className="button button-primary" disabled={formState === "submitting"}>{formState === "submitting" ? "Saving…" : "Join the waitlist"}<ArrowRight size={17} /></button><p className="form-note">Private early-access list · no spam.</p>
+          <button type="submit" className="button button-primary" disabled={formState === "submitting"}>{formState === "submitting" ? "Saving…" : "Join the waitlist"}<ArrowRight size={17} /></button><p className="form-note">Confirmation email follows · no spam.</p>
         </form>}
       </div>
     </div>

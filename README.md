@@ -110,7 +110,15 @@ Replace the filename with the pending migration and `DB` with your D1 binding na
 
 ## Newsletter API
 
-The static CTA posts to `/subscribe` on the Worker configured in `wrangler.newsletter.toml`. The Worker stores a normalized email and timestamp in D1, ignores duplicate submissions, and intentionally exposes no endpoint for listing subscribers.
+The static CTA posts to `/subscribe` on the Worker configured in `wrangler.newsletter.toml`. The Worker stores a normalized email and timestamp in D1, ignores duplicate submissions, sends one confirmation email through Resend, and intentionally exposes no endpoint for listing subscribers.
+
+Before sending real confirmations, verify a sending domain in Resend, set `RESEND_FROM_EMAIL` in the Worker variables, and add the API key as a Cloudflare secret:
+
+```sh
+npx wrangler secret put RESEND_API_KEY --config wrangler.newsletter.toml
+```
+
+The API key is never included in the repository or exposed to the browser.
 
 To publish changes to the API:
 

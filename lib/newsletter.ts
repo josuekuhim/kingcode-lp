@@ -6,6 +6,7 @@ export type NewsletterSubscriptionStatus =
 type NewsletterResponse = {
   ok?: unknown;
   status?: unknown;
+  confirmation?: unknown;
   error?: unknown;
 };
 
@@ -39,6 +40,7 @@ export async function subscribeToNewsletter(
   if (
     !response.ok ||
     payload.ok !== true ||
+    payload.confirmation !== "sent" ||
     (status !== "subscribed" &&
       status !== "already_subscribed" &&
       status !== "accepted")
@@ -46,7 +48,7 @@ export async function subscribeToNewsletter(
     throw new Error(
       typeof payload.error === "string"
         ? payload.error
-        : "Could not save your email. Please try again.",
+        : "Could not send the confirmation email yet. Please try again.",
     );
   }
 
