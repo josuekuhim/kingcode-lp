@@ -8,7 +8,8 @@ export const metadata: Metadata = {
   description:
     "The AI development orchestrator that routes every task to the best model.",
   icons: {
-    icon: `${publicBasePath}/favicon.svg`,
+    icon: `${publicBasePath}/favicon.png`,
+    shortcut: `${publicBasePath}/favicon.png`,
   },
 };
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) { return <html lang="en"><body>{children}</body></html>; }

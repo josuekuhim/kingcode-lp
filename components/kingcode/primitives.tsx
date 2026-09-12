@@ -2,11 +2,23 @@
 
 import { useState, type ReactNode } from "react";
 import { Check, Copy, Terminal } from "lucide-react";
+import Image from "next/image";
 import { mascotPalette, mascotRows } from "@/lib/kingcode-mascot";
+
+const publicBasePath = process.env.NEXT_PUBLIC_BASE_PATH ?? "";
 
 export function Brand() {
   return <a className="brand" href="#top" aria-label="KingCode home">
-    <span className="brand-prompt" aria-hidden="true">&gt;<span>_</span></span>
+    <Image
+      className="brand-logo"
+      src={`${publicBasePath}/kingcode-logo.png`}
+      alt=""
+      width={32}
+      height={32}
+      aria-hidden="true"
+      priority
+      unoptimized
+    />
     <span className="brand-word">king<span>code</span></span>
   </a>;
 }

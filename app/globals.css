@@ -58,9 +58,8 @@ pre, code, kbd { font-family: var(--font-mono); }
 .skip-link:focus { top: 12px; }
 .site-header { position: sticky; top: 0; z-index: 40; border-bottom: 1px solid #f4f0f110; background: #0b0a0be8; backdrop-filter: blur(18px); }
 .navbar { display: flex; align-items: center; height: 78px; gap: 32px; }
-.brand { display: inline-flex; align-items: center; gap: 12px; width: fit-content; }
-.brand-prompt { font: 600 29px/1 var(--font-mono); color: var(--primary); letter-spacing: -.14em; padding-right: 3px; }
-.brand-prompt span { color: var(--accent-text); }
+.brand { display: inline-flex; align-items: center; gap: 10px; width: fit-content; }
+.brand-logo { display: block; width: 32px; height: 32px; object-fit: contain; flex: 0 0 auto; }
 .brand-word { font-size: 22px; font-weight: 800; letter-spacing: -.055em; }
 .brand-word span { color: var(--primary); }
 .desktop-nav { display: flex; gap: 32px; margin: 0 auto; font-size: 14px; color: var(--muted-foreground); }
@@ -580,8 +579,8 @@ h2 > span { color: var(--muted-foreground); }
   .container { width: calc(100% - 36px); }
   .section { padding-block: 64px; }
   .brand { gap: 8px; }
+  .brand-logo { width: 29px; height: 29px; }
   .brand-word { font-size: 19px; }
-  .brand-prompt { font-size: 26px; }
   .navbar { gap: 10px; }
   .nav-access { font-size: 10px; padding: 7px 9px; gap: 7px; }
   .hero { padding-top: 38px; gap: 38px; }
